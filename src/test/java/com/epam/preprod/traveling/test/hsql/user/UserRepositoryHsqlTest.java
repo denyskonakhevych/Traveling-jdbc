@@ -1,5 +1,6 @@
 package com.epam.preprod.traveling.test.hsql.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -9,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.epam.preprod.traveling.domain.country.Country;
-import com.epam.preprod.traveling.repository.hottel.HottelRepository;
+import com.epam.preprod.traveling.domain.user.User;
+import com.epam.preprod.traveling.repository.user.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/persistenceContextTest.xml"})
 public class UserRepositoryHsqlTest {
 
 	@Autowired
-    private HottelRepository countryRepository;
+    private UserRepository userRepository;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -25,13 +26,21 @@ public class UserRepositoryHsqlTest {
 
 	@Test
 	public void test() {
-		Country country = new Country();
-		country.setName("Ukraine");
-		System.out.println(0);
-		countryRepository.add(country);
-		List<Country> countries = countryRepository.findAll();
-		for (Country country1 : countries) {
-			System.out.println(country1);
+		User user = new User();
+		user.setFirstName("firstName");
+		user.setSecondName("secondName");
+		user.setSex("male");
+		user.setEmail("email");
+		user.setPassword("***");
+		List<String> telephones = new ArrayList<String>();
+		telephones.add("telephone1");
+		user.setTelephones(telephones);
+		user.setAddress("Address");
+		
+		userRepository.add(user);
+		List<User> users = userRepository.findAll();
+		for (User user1 : users) {
+			System.out.println(user1);
 		}
 	}
 

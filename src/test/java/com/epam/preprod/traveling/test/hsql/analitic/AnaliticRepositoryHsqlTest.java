@@ -9,15 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.epam.preprod.traveling.domain.country.Country;
-import com.epam.preprod.traveling.repository.hottel.HottelRepository;
+import com.epam.preprod.traveling.domain.analitic.Analitic;
+import com.epam.preprod.traveling.repository.analitic.AnaliticRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/persistenceContextTest.xml"})
 public class AnaliticRepositoryHsqlTest {
 
 	@Autowired
-    private HottelRepository countryRepository;
+    private AnaliticRepository analiticRepository;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -25,13 +25,15 @@ public class AnaliticRepositoryHsqlTest {
 
 	@Test
 	public void test() {
-		Country country = new Country();
-		country.setName("Ukraine");
-		System.out.println(0);
-		countryRepository.add(country);
-		List<Country> countries = countryRepository.findAll();
-		for (Country country1 : countries) {
-			System.out.println(country1);
+		Analitic analitic = new Analitic();
+		analitic.setFirstName("first_name");
+		analitic.setSecondName("second_name");
+		analitic.setEmail("email");
+		
+		analiticRepository.add(analitic);
+		List<Analitic> analitics = analiticRepository.findAll();
+		for (Analitic currentAnalitic : analitics) {
+			System.out.println(currentAnalitic);
 		}
 	}
 

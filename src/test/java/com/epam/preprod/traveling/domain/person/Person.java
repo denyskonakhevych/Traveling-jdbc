@@ -6,7 +6,6 @@ public abstract class Person {
 	private String secondName;
 	private String email;
 	private String password;
-	//private String possition;
 	
 	public String getFirstName() {
 		return firstName;
@@ -31,5 +30,10 @@ public abstract class Person {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "firstName=" + firstName + ", secondName=" + secondName
+				+ ", email=" + email;
+	}
 }

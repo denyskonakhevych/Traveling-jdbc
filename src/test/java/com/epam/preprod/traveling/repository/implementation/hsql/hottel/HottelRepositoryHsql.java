@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.repository.impl.hsql.hottel;
+package com.epam.preprod.traveling.repository.implementation.hsql.hottel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import com.epam.preprod.traveling.domain.country.Country;
 import com.epam.preprod.traveling.domain.hottel.Hottel;
 import com.epam.preprod.traveling.repository.country.CountryRepository;
 import com.epam.preprod.traveling.repository.hottel.HottelRepository;
-import com.epam.preprod.traveling.repository.impl.hsql.country.CountryRepositoryHsql;
+import com.epam.preprod.traveling.repository.implementation.hsql.country.CountryRepositoryHsql;
 
 @Repository("hottelRepository")
 public class HottelRepositoryHsql implements HottelRepository{
@@ -32,8 +32,16 @@ public class HottelRepositoryHsql implements HottelRepository{
 	}
 
 	public Hottel findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		try(Connection connection = ds.getConnection();
+	        	PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from hottel WHERE id = " + id);
+	        	ResultSet resultSet = preparedStatement.executeQuery();) {
+				if (resultSet.next()) {
+					return map(resultSet);
+				}
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+			return null;
 	}
 
 	public List<Hottel> findAll() {

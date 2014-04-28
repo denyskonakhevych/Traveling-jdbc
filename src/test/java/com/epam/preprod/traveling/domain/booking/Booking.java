@@ -1,5 +1,6 @@
 package com.epam.preprod.traveling.domain.booking;
 
+import com.epam.preprod.traveling.domain.analitic.Analitic;
 import com.epam.preprod.traveling.domain.tour.Tour;
 import com.epam.preprod.traveling.domain.user.User;
 
@@ -7,6 +8,7 @@ public class Booking{
 	private Integer id;
 	private Tour tour;
 	private User orderedBy;
+	private Analitic managedBy;
 	private String status;
 	private float totalPrice;
 	
@@ -40,5 +42,16 @@ public class Booking{
 	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	
+	public Analitic getManagedBy() {
+		return managedBy;
+	}
+	public void setManagedBy(Analitic managedBy) {
+		this.managedBy = managedBy;
+	}
+	@Override
+	public String toString() {
+		return "Booking [id=" + id + ", tour=" + tour + ", orderedBy="
+				+ orderedBy + ", managedBy=" + managedBy + ", status=" + status
+				+ ", totalPrice=" + totalPrice + "]";
+	}
 }

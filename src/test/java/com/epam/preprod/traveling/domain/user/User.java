@@ -33,6 +33,9 @@ public class User extends Person{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", " + super.toString() + ", sex=" + sex + ", telephones=" + telephones
+				+ ", address=" + address + "]";
+	}
 }

@@ -31,6 +31,7 @@ public class Country {
 	}
 	@Override
 	public String toString() {
-		return "Country {" + name + "}";
+		return "Country [id=" + id + ", name=" + name + ", description="
+				+ description + ", climate=" + climate + "]";
 	}
 }

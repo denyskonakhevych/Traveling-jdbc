@@ -49,4 +49,10 @@ public class Tour {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+	@Override
+	public String toString() {
+		return "Tour [id=" + id + ", numberOfPeople=" + numberOfPeople
+				+ ", from=" + from + ", to=" + to + ", hottel=" + hottel
+				+ ", price=" + price + "]";
+	}
 }

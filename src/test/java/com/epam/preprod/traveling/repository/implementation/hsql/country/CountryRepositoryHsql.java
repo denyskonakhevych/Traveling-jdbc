@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.repository.impl.hsql.country;
+package com.epam.preprod.traveling.repository.implementation.hsql.country;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +24,6 @@ public class CountryRepositoryHsql implements CountryRepository{
     }
 	
 	public Country findByName(String name) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

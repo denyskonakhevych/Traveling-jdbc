@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.test.hsql.country;
+package com.epam.preprod.traveling.test.hsql.hottel;
 
 import java.util.List;
 
@@ -10,12 +10,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.epam.preprod.traveling.domain.country.Country;
+import com.epam.preprod.traveling.domain.hottel.Hottel;
 import com.epam.preprod.traveling.repository.country.CountryRepository;
+import com.epam.preprod.traveling.repository.hottel.HottelRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/persistenceContextTest.xml"})
-public class CountryRepositoryHsqlTest {
+public class HottelRepositoryHsqlTest {
 
+	@Autowired
+    private HottelRepository hottelRepository;
 	@Autowired
     private CountryRepository countryRepository;
 	
@@ -25,15 +29,23 @@ public class CountryRepositoryHsqlTest {
 
 	@Test
 	public void test() {
+		
 		Country country = new Country();
 		country.setName("Ukraine");
-		country.setClimate("climate");
 		country.setDescription("description");
-		
+		country.setClimate("climate");
 		countryRepository.add(country);
-		List<Country> countries = countryRepository.findAll();
-		for (Country currentCountry : countries) {
-			System.out.println(currentCountry);
+		
+		Hottel hottel = new Hottel();
+		hottel.setCountry(countryRepository.findAll().get(0));
+		hottel.setDescription("description");
+		hottel.setName("hottel");
+		hottel.setStars(5);
+		
+		hottelRepository.add(hottel);
+		List<Hottel> hottels = hottelRepository.findAll();
+		for (Hottel currentHottel : hottels) {
+			System.out.println(currentHottel);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.repository.impl.hsql.tour;
+package com.epam.preprod.traveling.repository.implementation.hsql.tour;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.epam.preprod.traveling.domain.hottel.Hottel;
 import com.epam.preprod.traveling.domain.tour.Tour;
 import com.epam.preprod.traveling.repository.hottel.HottelRepository;
-import com.epam.preprod.traveling.repository.impl.hsql.hottel.HottelRepositoryHsql;
+import com.epam.preprod.traveling.repository.implementation.hsql.hottel.HottelRepositoryHsql;
 import com.epam.preprod.traveling.repository.tour.TourRepository;
 
 @Repository("tourRepository")
@@ -27,8 +27,7 @@ public class TourRepositoryHsql implements TourRepository{
     }
 	
 	public Tour findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public Tour findById(int id) {
@@ -63,14 +62,13 @@ public class TourRepositoryHsql implements TourRepository{
 	public boolean add(Tour tour) {
 
         try(Connection connection = ds.getConnection();
-        	PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tour(id, number_of_people, date_from, date_to, hottel_id, price) VALUES (?, ?, ?, ?, ?, ?)");) {
+        	PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tour(number_of_people, date_from, date_to, hottel_id, price) VALUES (?, ?, ?, ?, ?)");) {
         	
-        	preparedStatement.setInt(1, tour.getId());
-        	preparedStatement.setInt(2, tour.getNumberOfPeople());
-        	preparedStatement.setDate(3, new java.sql.Date(tour.getFrom().getTime()));
-        	preparedStatement.setDate(4, new java.sql.Date(tour.getTo().getTime()));
-        	preparedStatement.setInt(5, tour.getHottel().getId());
-        	preparedStatement.setFloat(6, tour.getPrice());
+        	preparedStatement.setInt(1, tour.getNumberOfPeople());
+        	preparedStatement.setDate(2, new java.sql.Date(tour.getFrom().getTime()));
+        	preparedStatement.setDate(3, new java.sql.Date(tour.getTo().getTime()));
+        	preparedStatement.setInt(4, tour.getHottel().getId());
+        	preparedStatement.setFloat(5, tour.getPrice());
         	
             int result = preparedStatement.executeUpdate();
             if (result >= 0) {

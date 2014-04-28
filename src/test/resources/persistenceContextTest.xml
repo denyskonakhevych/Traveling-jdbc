@@ -12,10 +12,22 @@ http://www.springframework.org/schema/jdbc http://www.springframework.org/schema
    
     <context:component-scan base-package="com.epam.preprod.traveling.repository"/>
     
-    <bean name="countryRepository" class="com.epam.preprod.traveling.repository.impl.hsql.country.CountryRepositoryHsql">
+    <bean name="countryRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.country.CountryRepositoryHsql">
     	<constructor-arg ref="dataSource"/>
     </bean>
-    <bean name="userRepository" class="com.epam.preprod.traveling.repository.impl.hsql.user.UserRepositoryHsql">
+    <bean name="userRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.user.UserRepositoryHsql">
+    	<constructor-arg ref="dataSource"/>
+    </bean>
+    <bean name="analiticRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.analitic.AnaliticRepositoryHsql">
+    	<constructor-arg ref="dataSource"/>
+    </bean>
+    <bean name="hottelRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.hottel.HottelRepositoryHsql">
+    	<constructor-arg ref="dataSource"/>
+    </bean>
+    <bean name="tourRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.tour.TourRepositoryHsql">
+    	<constructor-arg ref="dataSource"/>
+    </bean>
+    <bean name="bookingRepository" class="com.epam.preprod.traveling.repository.implementation.hsql.booking.BookingRepositoryHsql">
     	<constructor-arg ref="dataSource"/>
     </bean>
     
@@ -29,3 +41,4 @@ http://www.springframework.org/schema/jdbc http://www.springframework.org/schema
     </bean>
     
 </beans>
+

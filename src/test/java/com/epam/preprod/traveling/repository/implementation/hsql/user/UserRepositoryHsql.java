@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.repository.impl.hsql.user;
+package com.epam.preprod.traveling.repository.implementation.hsql.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +28,16 @@ public class UserRepositoryHsql implements UserRepository{
 	}
 
 	public User findById(int id) {
-		throw new UnsupportedOperationException();
+		try(Connection connection = ds.getConnection();
+        	PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from user WHERE id = " + id);
+        	ResultSet resultSet = preparedStatement.executeQuery();) {
+			if (resultSet.next()) {
+				return map(resultSet);
+			}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return null;
 	}
 
 	public List<User> findAll() {
@@ -50,13 +59,13 @@ public class UserRepositoryHsql implements UserRepository{
 	public boolean add(User user) {
 
         try(Connection connection = ds.getConnection();
-        	PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO user(name_f, name_s, sex, e-mail, password, telephone, address) VALUES (?, ?, ?, ?, ?, ?, ?)");) {
+        	PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO user (name_f, name_s, sex, email, password, telephone, address) VALUES (?, ?, ?, ?, ?, ?, ?)");) {
         	preparedStatement.setString(1, user.getFirstName());
         	preparedStatement.setString(2, user.getSecondName());
         	preparedStatement.setString(3, user.getSex());
         	preparedStatement.setString(4, user.getEmail());
         	preparedStatement.setString(5, user.getPassword());
-        	preparedStatement.setString(6, user.getTelephones().get(0)); // TODO: save list
+        	preparedStatement.setString(6, (String)user.getTelephones().get(0)); // TODO: save list
         	preparedStatement.setString(7, user.getAddress());
             int result = preparedStatement.executeUpdate();
             if (result >= 0) {
@@ -77,7 +86,7 @@ public class UserRepositoryHsql implements UserRepository{
 		user.setFirstName(resultSet.getString("name_f"));
 		user.setSecondName(resultSet.getString("name_s"));
 		user.setSex(resultSet.getString("sex"));
-		user.setEmail(resultSet.getString("e-mail"));
+		user.setEmail(resultSet.getString("email"));
 		user.setPassword(resultSet.getString("password"));
 		ArrayList<String> telephones = new ArrayList<>();
 		telephones.add(resultSet.getString("telephone"));

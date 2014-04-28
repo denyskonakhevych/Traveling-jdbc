@@ -21,4 +21,10 @@ public class Analitic extends Person{
 	public void setPossition(String possition) {
 		this.possition = possition;
 	}
+
+	@Override
+	public String toString() {
+		return "Analitic [id=" + id + ", " + super.toString() + ", possition=" + possition + "]";
+	}
+	
 }

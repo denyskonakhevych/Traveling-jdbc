@@ -1,4 +1,4 @@
-package com.epam.preprod.traveling.repository.impl.hsql.analitic;
+package com.epam.preprod.traveling.repository.implementation.hsql.analitic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,12 +24,19 @@ public class AnaliticRepositoryHsql implements AnaliticRepository{
     }
 	
 	public Analitic findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public Analitic findById(int id) {
-		// TODO Auto-generated method stub
+		try(Connection connection = ds.getConnection();
+        	PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from analitic WHERE id = " + id);
+        	ResultSet resultSet = preparedStatement.executeQuery();) {
+			if (resultSet.next()) {
+				return map(resultSet);
+			}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		return null;
 	}
 
