@@ -21,7 +21,8 @@ CREATE TABLE analitic(
     name_f varchar(20),
     name_s varchar(20),
     email varchar(40),
-	password varchar(60)
+	password varchar(60),
+	possition varchar(40)
 );
 
 CREATE TABLE hottel(
@@ -30,7 +31,7 @@ CREATE TABLE hottel(
     stars INTEGER,
     country_id INTEGER,
     description varchar(500),
-    CONSTRAINT hottel_country_fk FOREIGN KEY (country_id) REFERENCES country(id)
+    CONSTRAINT hottel_country_fk FOREIGN KEY (country_id) REFERENCES country(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tour(
@@ -40,7 +41,7 @@ CREATE TABLE tour(
     date_to DATE,
     hottel_id INTEGER,
     price FLOAT,
-    CONSTRAINT tour_hottel_fk FOREIGN KEY (hottel_id) REFERENCES hottel(id)
+    CONSTRAINT tour_hottel_fk FOREIGN KEY (hottel_id) REFERENCES hottel(id) ON DELETE CASCADE
 );
 
 CREATE TABLE booking(
@@ -50,7 +51,7 @@ CREATE TABLE booking(
     status varchar(15),
     managed_by INTEGER,
     total_price FLOAT,
-    CONSTRAINT booking_tour_fk FOREIGN KEY (tour_id) REFERENCES tour(id),
-    CONSTRAINT booking_user_fk FOREIGN KEY (ordered_by) REFERENCES user(id),
-    CONSTRAINT booking_analitic_fk FOREIGN KEY (managed_by) REFERENCES analitic(id)
+    CONSTRAINT booking_tour_fk FOREIGN KEY (tour_id) REFERENCES tour(id) ON DELETE CASCADE,
+    CONSTRAINT booking_user_fk FOREIGN KEY (ordered_by) REFERENCES user(id) ON DELETE CASCADE,
+    CONSTRAINT booking_analitic_fk FOREIGN KEY (managed_by) REFERENCES analitic(id) ON DELETE CASCADE
 );

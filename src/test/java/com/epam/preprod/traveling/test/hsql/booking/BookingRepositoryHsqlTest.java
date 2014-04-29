@@ -23,10 +23,11 @@ import com.epam.preprod.traveling.repository.country.CountryRepository;
 import com.epam.preprod.traveling.repository.hottel.HottelRepository;
 import com.epam.preprod.traveling.repository.tour.TourRepository;
 import com.epam.preprod.traveling.repository.user.UserRepository;
+import com.epam.preprod.traveling.test.hsql.DaoTestsTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/persistenceContextTest.xml"})
-public class BookingRepositoryHsqlTest {
+public class BookingRepositoryHsqlTest extends DaoTestsTemplate {
 
 	@Autowired
     private BookingRepository bookingRepository;
@@ -43,67 +44,48 @@ public class BookingRepositoryHsqlTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		jdbcTemplate.execute("TRUNCATE TABLE country");
+		jdbcTemplate.execute("TRUNCATE TABLE hottel");
+		jdbcTemplate.execute("TRUNCATE TABLE tour");
+		jdbcTemplate.execute("TRUNCATE TABLE analitic");
+		jdbcTemplate.execute("TRUNCATE TABLE user");
 	}
 
 	@Test
 	public void test() {
 		
-		Country country = new Country();
-		country.setName("Ukraine");
-		country.setDescription("description");
-		country.setClimate("climate");
-		countryRepository.add(country);
+		Country tmpCountry = new Country(null, "Ukraine", "best country", "Mild");
+		countryRepository.add(tmpCountry);
+		Country country = countryRepository.findAll().get(0);
 		
-		Hottel hottel = new Hottel();
-		hottel.setCountry(countryRepository.findAll().get(0));
-		hottel.setDescription("description");
-		hottel.setName("hottel");
-		hottel.setStars(5);
-		hottelRepository.add(hottel);
+		Hottel tmpHottel = new Hottel(null, country, "Hyatt Regency", 5, "The Hyatt Regency Kiev is the 5 star hotel located in the city centre of Kyiv");
+		hottelRepository.add(tmpHottel);
+		Hottel hottel = hottelRepository.findAll().get(0);
 		
-		Tour tour = new Tour();
-		tour.setHottel(hottel);
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, 2014);
-		calendar.set(Calendar.MONTH, 7);
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		tour.setFrom(calendar.getTime());
+		Calendar from = Calendar.getInstance();
+		from.set(Calendar.YEAR, 2014);
+		from.set(Calendar.MONTH, 7);
+		from.set(Calendar.DAY_OF_MONTH, 1);
+		Calendar to = Calendar.getInstance();
+		to.set(Calendar.YEAR, 2014);
+		to.set(Calendar.MONTH, 7);
+		to.set(Calendar.DAY_OF_MONTH, 13);
 		
-		calendar.set(Calendar.YEAR, 2014);
-		calendar.set(Calendar.MONTH, 7);
-		calendar.set(Calendar.DAY_OF_MONTH, 13);
-		tour.setTo(calendar.getTime());
+		Tour tmpTour = new Tour(null, 2, from.getTime(), to.getTime(), hottel, 14999.0f);
+		tourRepository.add(tmpTour);
+		Tour tour = tourRepository.findAll().get(0); 
 		
-		tour.setHottel(hottelRepository.findAll().get(0));
-		tour.setNumberOfPeole(2);
-		tour.setPrice(7999.99f);
-		tourRepository.add(tour);
+		List<String> usersTelephones = new ArrayList<>();
+		usersTelephones.add("+38(012)1234567");
+		User tmpUser = new User("Mary", "Johnson", "mary.johnson@gmail.com", "jmary", null, "female", usersTelephones, "Mary's address");
+		userRepository.add(tmpUser);
+		User user = userRepository.findAll().get(0);
 		
-		User user = new User();
-		user.setFirstName("firstName");
-		user.setSecondName("secondName");
-		user.setSex("male");
-		user.setEmail("email");
-		user.setPassword("***");
-		List<String> telephones = new ArrayList<String>();
-		telephones.add("telephone1");
-		user.setTelephones(telephones);
-		user.setAddress("Address");
-		userRepository.add(user);
+		Analitic tmpAnalitic = new Analitic("Mary", "Johnson", "mary.johnson@gmail.com", "jmary", null, "Analitic");
+		analiticRepository.add(tmpAnalitic);
+		Analitic analitic = analiticRepository.findAll().get(0);
 		
-		Analitic analitic = new Analitic();
-		analitic.setFirstName("first_name");
-		analitic.setSecondName("second_name");
-		analitic.setEmail("email");
-		analiticRepository.add(analitic);
-		
-		Booking booking = new Booking();
-		booking.setTour(tourRepository.findAll().get(0));
-		booking.setTotalPrice(7999.99f);
-		booking.setStatus("Ordered");
-		booking.setOrderedBy(userRepository.findAll().get(0));
-		booking.setManagedBy(analiticRepository.findAll().get(0));
-		
+		Booking booking = new Booking(null, tour, user, analitic, "ordered", 14999.0f);
 		bookingRepository.add(booking);
 		List<Booking> bookings = bookingRepository.findAll();
 		for (Booking currentBooking : bookings) {
